@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ./frontend-service"
+                sh "sudo docker build -t $IMAGE_NAME:$IMAGE_TAG ./frontend-service"
             }
         }
 
@@ -29,7 +29,7 @@ pipeline {
                 )]) {
                     sh """
                     echo $PASSWORD | docker login -u $USERNAME --password-stdin
-                    docker push $IMAGE_NAME:$IMAGE_TAG
+                    sudo docker push $IMAGE_NAME:$IMAGE_TAG
                     """
                 }
             }
