@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "vishnu353/chromosoft"
-        DOCKER_TAG = "${BUILD_NUMBER}"
+        IMAGE_NAME = "solankivishnu63/website"
+        IMAGE_TAG = "${BUILD_NUMBER}"
     }
 
     stages {
 
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
                 checkout scm
             }
@@ -16,11 +16,11 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t $DOCKER_IMAGE:$DOCKER_TAG ."
+                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
             }
         }
 
-        stage('Login to Docker Hub') {
+        stage('Push to DockerHub') {
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-creds',
@@ -28,32 +28,20 @@ pipeline {
                     passwordVariable: 'PASSWORD'
                 )]) {
                     sh """
-                    echo \$PASSWORD | docker login -u \$USERNAME --password-stdin
+                    echo $PASSWORD | docker login -u $USERNAME --password-stdin
+                    docker push $IMAGE_NAME:$IMAGE_TAG
                     """
                 }
             }
         }
 
-        stage('Push Image') {
+        stage('Deploy to Kubernetes') {
             steps {
                 sh """
-                docker push $DOCKER_IMAGE:$DOCKER_TAG
-                docker tag $DOCKER_IMAGE:$DOCKER_TAG $DOCKER_IMAGE:latest
-                docker push $DOCKER_IMAGE:latest
+                kubectl set image deployment/website-deployment \
+                website=$IMAGE_NAME:$IMAGE_TAG
                 """
             }
-        }
-    }
-
-    post {
-        always {
-            sh "docker logout"
-        }
-        success {
-            echo "Image pushed successfully 🚀"
-        }
-        failure {
-            echo "Build failed ❌"
         }
     }
 }
