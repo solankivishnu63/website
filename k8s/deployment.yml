@@ -14,7 +14,7 @@ spec:
         app: website
     spec:
       containers:
-      - name: website-container
+      - name: website
         image: vishnu353/chromosoft:v1.0
         ports:
         - containerPort: 80
