@@ -29,7 +29,7 @@ pipeline {
                 )]) {
                     sh """
                     echo $PASSWORD | docker login -u $USERNAME --password-stdin
-                    sudo docker push $IMAGE_NAME:$IMAGE_TAG
+                    docker push $IMAGE_NAME:$IMAGE_TAG
                     """
                 }
             }
