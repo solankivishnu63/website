@@ -52,7 +52,8 @@ pipeline {
                 sh """
                     # Update Kubernetes deployment with new image
                     kubectl set image deployment/website-deployment \
-                    website=$IMAGE_NAME:$IMAGE_TAG
+                    website=$IMAGE_NAME:$IMAGE_TAG \
+                    -n chromosoft-ns
                 """
             }
         }
