@@ -51,7 +51,7 @@ pipeline {
             steps {
                 sh """
                     # Update Kubernetes deployment with new image
-                    sudo kubectl set image deployment/website-deployment \
+                    kubectl set image deployment/website-deployment \
                     website=$IMAGE_NAME:$IMAGE_TAG
                 """
             }
