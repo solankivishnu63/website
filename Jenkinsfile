@@ -1,4 +1,4 @@
-pipeline {
+pipeline { 
     agent any
 
     environment {
@@ -33,7 +33,7 @@ pipeline {
                         # Login to DockerHub
                         echo \$PASSWORD | docker login -u \$USERNAME --password-stdin
 
-                        # Tag latest
+                        # Tag as latest
                         docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
 
                         # Push both tags
@@ -49,12 +49,15 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh """
-                    # Update Kubernetes deployment with new image
-                    kubectl set image deployment/website-deployment \
-                    website=$IMAGE_NAME:$IMAGE_TAG \
-                    -n chromosoft-ns
-                """
+                // Use Jenkins file credential for kubeconfig
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
+                    sh """
+                        export KUBECONFIG=\$KUBECONFIG_FILE
+                        kubectl set image deployment/website-deployment \
+                            website=$IMAGE_NAME:$IMAGE_TAG \
+                            -n chromosoft-ns
+                    """
+                }
             }
         }
     }
