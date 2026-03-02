@@ -68,12 +68,11 @@ The application is containerized using a custom Dockerfile.
 
 ### Build Image
 
-```bash
 docker build -t <dockerhub-username>/website:latest .
 Push Image
 docker login
 docker push <dockerhub-username>/website:latest
-☸️ Kubernetes Deployment
+### ☸️ Kubernetes Deployment
 
 Kubernetes manifests are located in the k8s/ directory.
 
@@ -85,7 +84,7 @@ kubectl get svc
 
 Ensure your kubeconfig context is set correctly before deployment.
 
-🔄 Jenkins CI/CD Pipeline
+### 🔄 Jenkins CI/CD Pipeline
 
 The Jenkinsfile automates:
 
@@ -105,7 +104,7 @@ Docker Hub credentials (username/password)
 
 Kubernetes kubeconfig (Secret File credential)
 
-📈 Scalability & Production Considerations
+### 📈 Scalability & Production Considerations
 
 This setup supports:
 
@@ -121,7 +120,7 @@ Secure credential management
 
 Infrastructure portability
 
-🔐 Security Practices
+### 🔐 Security Practices
 
 Credentials stored securely in Jenkins
 
@@ -131,7 +130,7 @@ Kubernetes namespace isolation
 
 Controlled Docker image versioning
 
-🚀 Local Development (Optional)
+### 🚀 Local Development (Optional)
 
 For static preview:
 
@@ -140,7 +139,7 @@ npx serve .
 
 Or open index.html directly in a browser.
 
-🎯 Purpose of This Repository
+### 🎯 Purpose of This Repository
 
 This repository demonstrates hands-on experience in:
 
@@ -154,12 +153,12 @@ Production-style DevOps pipeline implementation
 
 It is suitable for DevOps Engineer / Cloud Engineer portfolio demonstration.
 
-👨‍💻 Maintainer
+### 👨‍💻 Maintainer
 
 Vishnu Solanki
 GitHub: https://github.com/solankivishnu63
 
-⭐ If you find this project useful, feel free to star the repository.
+### ⭐ If you find this project useful, feel free to star the repository.
 
 
 ---
